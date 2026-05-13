@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="LibraryApp.DAL/LibraryApp.DAL.csproj" Id="c627a4a5-b512-4aca-90fd-1883fe471c7a" />
   <Project Path="LibraryApp.Models/LibraryApp.Models.csproj" />
 </Solution>
