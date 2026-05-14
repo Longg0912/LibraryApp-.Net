@@ -1,5 +1,5 @@
 /* =============================================================================
-   FILE          : HUST_Library_Production.sql
+   FILE          : TLU_Library_Production.sql
    MÔ TẢ        : Script SQL Server PRODUCTION-READY cho Hệ thống Quản lý Thư viện
    MÔI TRƯỜNG   : SQL Server 2022 (chạy được trong SSMS 2022)
    ĐẶC ĐIỂM     : - Optimistic concurrency (ROWVERSION)
@@ -11,7 +11,6 @@
                   - Config động qua SystemSettings
                   - Dashboard views
                   - Trigger chống recursive update
-   CÁCH CHẠY     : Chạy toàn bộ file 1 lần trong SSMS. Tự drop DB cũ nếu có.
    ============================================================================= */
 
 SET NOCOUNT ON;
@@ -25,26 +24,26 @@ GO
 USE master;
 GO
 
-IF DB_ID('HUST_Library_DEV') IS NOT NULL
+IF DB_ID('TLU_Library_DEV') IS NOT NULL
 BEGIN
-    ALTER DATABASE HUST_Library_DEV SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE HUST_Library_DEV;
+    ALTER DATABASE TLU_Library_DEV SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE TLU_Library_DEV;
 END
 GO
 
-CREATE DATABASE HUST_Library_DEV COLLATE Vietnamese_CI_AS;
+CREATE DATABASE TLU_Library_DEV COLLATE Vietnamese_CI_AS;
 GO
 
-ALTER DATABASE HUST_Library_DEV SET RECOVERY FULL;
-ALTER DATABASE HUST_Library_DEV SET READ_COMMITTED_SNAPSHOT ON;    -- reader không chặn writer
-ALTER DATABASE HUST_Library_DEV SET ALLOW_SNAPSHOT_ISOLATION ON;
-ALTER DATABASE HUST_Library_DEV SET AUTO_UPDATE_STATISTICS ON;
-ALTER DATABASE HUST_Library_DEV SET AUTO_CREATE_STATISTICS ON;
-ALTER DATABASE HUST_Library_DEV SET QUERY_STORE = ON;              -- theo dõi performance
-ALTER DATABASE HUST_Library_DEV SET RECURSIVE_TRIGGERS OFF;
+ALTER DATABASE TLU_Library_DEV SET RECOVERY FULL;
+ALTER DATABASE TLU_Library_DEV SET READ_COMMITTED_SNAPSHOT ON;    -- reader không chặn writer
+ALTER DATABASE TLU_Library_DEV SET ALLOW_SNAPSHOT_ISOLATION ON;
+ALTER DATABASE TLU_Library_DEV SET AUTO_UPDATE_STATISTICS ON;
+ALTER DATABASE TLU_Library_DEV SET AUTO_CREATE_STATISTICS ON;
+ALTER DATABASE TLU_Library_DEV SET QUERY_STORE = ON;              -- theo dõi performance
+ALTER DATABASE TLU_Library_DEV SET RECURSIVE_TRIGGERS OFF;
 GO
 
-USE HUST_Library_DEV;
+USE TLU_Library_DEV;
 GO
 
 
@@ -1560,6 +1559,6 @@ EXEC dbo.sp_Stat_TopActiveReaders @TopN = 5;
 
 PRINT '';
 PRINT '====================================================';
-PRINT '  HUST_Library_DEV - PRODUCTION READY - SETUP DONE';
+PRINT '  TLU_Library_DEV - PRODUCTION READY - SETUP DONE';
 PRINT '====================================================';
 GO
