@@ -155,7 +155,7 @@ public partial class FrmMain : Form
     // ================================================================
 
     /// <summary>
-    /// Áp dụng phân quyền lên menu/sidebar dựa theo <see cref="CurrentSession"/>.
+    /// Áp dụng phân quyền lên menu/sidebar dựa theo <see cref="AppContext"/>.
     /// </summary>
     /// <remarks>
     /// Quy tắc đơn giản trong dự án:
@@ -195,13 +195,13 @@ public partial class FrmMain : Form
     private void menuFileExit_Click(object? sender, EventArgs e) => Close();
 
     private void menuBookList_Click(object? sender, EventArgs e)
-        => LoadView<UcPlaceholder>("Quản lý sách", "Danh sách, thêm, sửa, xoá, tìm kiếm sách");
+        => LoadView<UcBookList>("Quản lý sách", "Danh sách, thêm, sửa, xoá, tìm kiếm sách");
 
     private void menuBookCategory_Click(object? sender, EventArgs e)
-        => LoadView<UcPlaceholder>("Danh mục sách", "Quản lý danh mục phân loại sách");
+        => LoadView<UcCategoryList>("Danh mục sách", "Quản lý danh mục phân loại sách");
 
     private void menuReader_Click(object? sender, EventArgs e)
-        => LoadView<UcPlaceholder>("Độc giả", "Quản lý hồ sơ độc giả và thẻ thư viện");
+        => LoadView<UcReaderList>("Độc giả", "Quản lý hồ sơ độc giả và thẻ thư viện");
 
     private void menuBorrowCreate_Click(object? sender, EventArgs e)
         => LoadView<UcPlaceholder>("Lập phiếu mượn", "Tạo phiếu mượn sách mới");
