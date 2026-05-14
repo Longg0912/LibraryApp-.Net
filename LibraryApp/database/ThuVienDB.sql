@@ -485,10 +485,10 @@ WHERE PermissionCode IN ('BOOK_VIEW','READER_VIEW','REPORT_VIEW');
 
 -- 4.4 Users (PasswordHash là placeholder, hash thật bằng BCrypt khi đăng nhập từ app)
 INSERT INTO dbo.Users (Username, PasswordHash, FullName, Email, Phone, RoleId, PasswordChangedAt) VALUES
-('admin',   '$2a$11$PLACEHOLDER_HASH_FOR_DEMO_ONLY_admin_password_123',   N'Nguyễn Quản Trị', 'admin@lib.vn',  '0900000001', 1, SYSUTCDATETIME()),
-('thuthu1', '$2a$11$PLACEHOLDER_HASH_FOR_DEMO_ONLY_librarian_pass_123',   N'Trần Thị Thư',    'thu1@lib.vn',   '0900000002', 2, SYSUTCDATETIME()),
-('thuthu2', '$2a$11$PLACEHOLDER_HASH_FOR_DEMO_ONLY_librarian_pass_456',   N'Lê Văn Mượn',     'thu2@lib.vn',   '0900000003', 2, SYSUTCDATETIME()),
-('viewer1', '$2a$11$PLACEHOLDER_HASH_FOR_DEMO_ONLY_viewer_pass_789',      N'Phạm Quan Sát',   'view@lib.vn',   '0900000004', 3, SYSUTCDATETIME());
+('admin',   '$2a$12$qKYxRUk95Nlqim6TraJX4Og.DCQcXvtO8Q570dgGjsZXFIQBINAjG',   N'Nguyễn Quản Trị', 'admin@lib.vn',  '0900000001', 1, SYSUTCDATETIME()),
+('thuthu1', '$2a$12$qKYxRUk95Nlqim6TraJX4Og.DCQcXvtO8Q570dgGjsZXFIQBINAjG',   N'Trần Thị Thư',    'thu1@lib.vn',   '0900000002', 2, SYSUTCDATETIME()),
+('thuthu2', '$2a$12$qKYxRUk95Nlqim6TraJX4Og.DCQcXvtO8Q570dgGjsZXFIQBINAjG',   N'Lê Văn Mượn',     'thu2@lib.vn',   '0900000003', 2, SYSUTCDATETIME()),
+('viewer1', '$2a$12$qKYxRUk95Nlqim6TraJX4Og.DCQcXvtO8Q570dgGjsZXFIQBINAjG',      N'Phạm Quan Sát',   'view@lib.vn',   '0900000004', 3, SYSUTCDATETIME());
 
 -- 4.5 Categories
 INSERT INTO dbo.Categories (CategoryCode, CategoryName, Description) VALUES
