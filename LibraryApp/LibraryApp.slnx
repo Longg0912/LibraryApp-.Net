@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="LibraryApp.BLL/LibraryApp.BLL.csproj" Id="3ece9b2d-093f-4e66-9c5f-8ffb89307767" />
   <Project Path="LibraryApp.DAL/LibraryApp.DAL.csproj" Id="c627a4a5-b512-4aca-90fd-1883fe471c7a" />
   <Project Path="LibraryApp.Models/LibraryApp.Models.csproj" />
 </Solution>

@@ -7,7 +7,7 @@
 /// </summary>
 /// <typeparam name="TEntity">Kiểu entity nghiệp vụ.</typeparam>
 /// <typeparam name="TKey">Kiểu khoá chính (thường là <c>int</c>).</typeparam>
-public interface IRepository<TEntity, in TKey> where TEntity : class
+public interface IRepository<TEntity, TKey> where TEntity : class
 {
     /// <summary>Lấy toàn bộ bản ghi chưa bị xoá mềm.</summary>
     List<TEntity> GetAll();
