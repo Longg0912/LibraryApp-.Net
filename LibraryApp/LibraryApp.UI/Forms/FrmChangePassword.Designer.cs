@@ -1,4 +1,4 @@
-﻿namespace LibraryApp.UI.Forms;
+namespace LibraryApp.UI.Forms;
 
 partial class FrmChangePassword
 {

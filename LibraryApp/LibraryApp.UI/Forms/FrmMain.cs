@@ -1,4 +1,4 @@
-﻿using LibraryApp.UI.Common;
+using LibraryApp.UI.Common;
 using LibraryApp.UI.UserControls;
 
 namespace LibraryApp.UI.Forms;
@@ -222,7 +222,7 @@ public partial class FrmMain : Form
         => LoadView<UcReports>("Thống kê", "Báo cáo và biểu đồ thống kê hoạt động thư viện");
 
     private void menuAccountUsers_Click(object? sender, EventArgs e)
-        => LoadView<UcPlaceholder>("Quản lý người dùng", "Tài khoản nhân viên hệ thống");
+        => LoadView<UcUserList>("Quản lý người dùng", "Tài khoản nhân viên hệ thống");
 
     private void menuAccountChangePwd_Click(object? sender, EventArgs e)
     {

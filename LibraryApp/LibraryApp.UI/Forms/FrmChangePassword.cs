@@ -1,4 +1,4 @@
-﻿using LibraryApp.UI.Common;
+using LibraryApp.UI.Common;
 
 namespace LibraryApp.UI.Forms;
 

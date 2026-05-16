@@ -1,4 +1,4 @@
-﻿using LibraryApp.BLL.Interfaces;
+using LibraryApp.BLL.Interfaces;
 using LibraryApp.BLL.Services;
 using LibraryApp.DAL.Interfaces;
 using LibraryApp.DAL.Repositories;
@@ -40,6 +40,9 @@ public static class ServiceLocator
 
     /// <summary>Dịch vụ báo cáo / thống kê.</summary>
     public static IReportService Reports { get; } = new ReportService();
+
+    /// <summary>Dịch vụ quản lý người dùng (Admin only).</summary>
+    public static IUserService Users { get; } = new UserService();
 
     /// <summary>Repo Role để load danh sách vai trò cho login.</summary>
     internal static IUserRepository UserRepo => _userRepo;

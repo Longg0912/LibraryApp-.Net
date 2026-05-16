@@ -1,0 +1,29 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{cs,csproj}]
+indent_size = 4
+
+[*.{json,yml,yaml,xml,config}]
+indent_size = 2
+
+[*.{md,sln}]
+trim_trailing_whitespace = false
+
+# C# style
+[*.cs]
+csharp_new_line_before_open_brace = all
+csharp_indent_braces = false
+csharp_space_after_cast = false
+csharp_prefer_braces = when_multiline
+csharp_using_directive_placement = outside_namespace
+csharp_style_namespace_declarations = file_scoped:suggestion
+csharp_style_prefer_top_level_statements = false
+dotnet_sort_system_directives_first = true
