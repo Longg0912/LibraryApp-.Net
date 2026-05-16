@@ -204,33 +204,36 @@ public partial class FrmMain : Form
         => LoadView<UcReaderList>("Độc giả", "Quản lý hồ sơ độc giả và thẻ thư viện");
 
     private void menuBorrowCreate_Click(object? sender, EventArgs e)
-        => LoadView<UcPlaceholder>("Lập phiếu mượn", "Tạo phiếu mượn sách mới");
+        => LoadView<UcBorrowCreate>("Lập phiếu mượn", "Tạo phiếu mượn sách mới");
 
     private void menuBorrowReturn_Click(object? sender, EventArgs e)
-        => LoadView<UcPlaceholder>("Ghi nhận trả sách", "Tiếp nhận trả sách và tính tiền phạt");
+        => LoadView<UcBorrowList>("Ghi nhận trả sách", "Chọn phiếu mượn cần ghi nhận trả từ danh sách");
 
     private void menuBorrowList_Click(object? sender, EventArgs e)
-        => LoadView<UcPlaceholder>("Danh sách phiếu mượn", "Lịch sử mượn / trả toàn hệ thống");
+        => LoadView<UcBorrowList>("Danh sách phiếu mượn", "Lịch sử mượn / trả toàn hệ thống");
 
     private void menuReportTop_Click(object? sender, EventArgs e)
-        => LoadView<UcPlaceholder>("Top sách mượn nhiều", "Bảng xếp hạng sách được mượn nhiều nhất");
+        => LoadView<UcReports>("Thống kê", "Báo cáo và biểu đồ thống kê hoạt động thư viện");
 
     private void menuReportOverdue_Click(object? sender, EventArgs e)
-        => LoadView<UcPlaceholder>("Sách quá hạn", "Danh sách phiếu mượn đã quá hạn trả");
+        => LoadView<UcReports>("Thống kê", "Báo cáo và biểu đồ thống kê hoạt động thư viện");
 
     private void menuReportFine_Click(object? sender, EventArgs e)
-        => LoadView<UcPlaceholder>("Doanh thu tiền phạt", "Thống kê tiền phạt theo thời gian");
+        => LoadView<UcReports>("Thống kê", "Báo cáo và biểu đồ thống kê hoạt động thư viện");
 
     private void menuAccountUsers_Click(object? sender, EventArgs e)
         => LoadView<UcPlaceholder>("Quản lý người dùng", "Tài khoản nhân viên hệ thống");
 
     private void menuAccountChangePwd_Click(object? sender, EventArgs e)
     {
-        MessageBox.Show("Tính năng đang được xây dựng.", "Thông báo",
-            MessageBoxButtons.OK, MessageBoxIcon.Information);
+        using var dlg = new FrmChangePassword();
+        dlg.ShowDialog(this);
     }
 
     private void menuAccountLogout_Click(object? sender, EventArgs e) => PerformLogout();
+
+    private void menuToolsSearch_Click(object? sender, EventArgs e)
+        => LoadView<UcAdvancedSearch>("Tìm kiếm nâng cao", "Tìm trên nhiều thực thể với nhiều tiêu chí kết hợp");
 
     private void menuHelpAbout_Click(object? sender, EventArgs e)
     {

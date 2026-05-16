@@ -1,7 +1,5 @@
-﻿using LibraryApp.BLL.Common;
-using LibraryApp.BLL.Dtos;
+﻿using LibraryApp.BLL.Dtos;
 using LibraryApp.DAL;
-using LibraryApp.DAL.Common;
 using LibraryApp.UI.Common;
 
 namespace LibraryApp.UI.Forms;
@@ -15,7 +13,7 @@ namespace LibraryApp.UI.Forms;
 /// <item>Kiểm tra kết nối database khi form load. Nếu fail thì báo lỗi và đóng app.</item>
 /// <item>Validate ô nhập (không rỗng) trước khi gọi service.</item>
 /// <item>Gọi <c>AuthService.Login</c> trên background thread để không treo UI.</item>
-/// <item>Nếu thành công: lưu user vào <see cref="CurrentSession"/>, ẩn form này và mở <c>FrmMain</c>.</item>
+/// <item>Nếu thành công: lưu user vào <see cref="AppContext"/>, ẩn form này và mở <c>FrmMain</c>.</item>
 /// <item>Nếu thất bại: hiển thị MessageBox + ErrorProvider, focus lại field cần sửa.</item>
 /// </list>
 /// </summary>
@@ -79,24 +77,18 @@ public partial class FrmLogin : Form
     /// </summary>
     private async void btnLogin_Click(object? sender, EventArgs e)
     {
-        errorProvider.Clear();
+        // ---- 1. Validate đầu vào dùng UiValidator (fluent) ----
+        var v = new UiValidator(errorProvider);
+        v.RequireText(txtUsername, "Tên đăng nhập", minLength: 3)
+         .RequireText(txtPassword, "Mật khẩu", minLength: 1);
 
-        // ---- 1. Validate đầu vào tại UI ----
-        if (string.IsNullOrWhiteSpace(txtUsername.Text))
+        if (!v.IsValid)
         {
-            errorProvider.SetError(txtUsername, "Vui lòng nhập tên đăng nhập.");
-            txtUsername.Focus();
+            v.FocusFirstError();
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(txtPassword.Text))
-        {
-            errorProvider.SetError(txtPassword, "Vui lòng nhập mật khẩu.");
-            txtPassword.Focus();
-            return;
-        }
-
-        // ---- 2. Gọi AuthService trên background thread ----
+        // ---- 2. Gọi AuthService trên background thread, mọi exception → ErrorHandler ----
         SetBusy(true);
         try
         {
@@ -108,22 +100,10 @@ public partial class FrmLogin : Form
 
             HandleLoginResult(result);
         }
-        catch (BusinessException ex)
-        {
-            MessageBox.Show(ex.Message, "Lỗi nhập liệu",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-        catch (DalException ex)
-        {
-            MessageBox.Show(ex.Message, "Lỗi truy cập dữ liệu",
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
         catch (Exception ex)
         {
-            // Fallback cho mọi exception không lường trước
-            MessageBox.Show(
-                $"Đã xảy ra lỗi không xác định: {ex.Message}",
-                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            // ErrorHandler tự phân loại (Business / DAL / SQL / khác) + log + MessageBox
+            ErrorHandler.Handle(ex, context: "Đăng nhập", owner: this);
         }
         finally
         {

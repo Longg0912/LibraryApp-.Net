@@ -610,6 +610,7 @@ GO
 -- 6.1 Tổng quan sách (kèm danh mục)
 CREATE OR ALTER VIEW dbo.vw_BookOverview AS
 SELECT  b.BookId, b.BookCode, b.Title, b.Author, b.Publisher, b.PublishYear,
+        b.CategoryId, 
         c.CategoryName,
         b.Quantity, b.AvailableQty,
         (b.Quantity - b.AvailableQty) AS BorrowedQty,
@@ -891,7 +892,7 @@ BEGIN
 
     DECLARE @Skip INT = (@PageIndex - 1) * @PageSize;
 
-    -- Tổng số bản ghi (cho phân trang trên DataGridView)
+    -- Tổng số bản ghi (cho phân trang)
     SELECT COUNT(*) AS TotalCount
     FROM dbo.Books b
     WHERE b.IsDeleted = 0
@@ -903,10 +904,12 @@ BEGIN
       AND (@YearFrom   IS NULL OR b.PublishYear >= @YearFrom)
       AND (@YearTo     IS NULL OR b.PublishYear <= @YearTo);
 
-    -- Dữ liệu
+    -- Dữ liệu thực tế: ĐÃ BỔ SUNG FULL CỘT KIỂM TOÁN VÀ CATEGORYID
     SELECT b.BookId, b.BookCode, b.Title, b.Author, b.Publisher,
-           b.PublishYear, c.CategoryName, b.Quantity, b.AvailableQty,
-           b.Price, b.Status, b.RowVer
+           b.PublishYear, b.CategoryId, c.CategoryName, b.Quantity, b.AvailableQty,
+           b.Price, b.Status, b.RowVer,
+           b.CreatedAt, b.CreatedBy, b.UpdatedAt, b.UpdatedBy, b.IsDeleted, 
+           b.DeletedAt, b.DeletedBy
     FROM dbo.Books b
     JOIN dbo.Categories c ON c.CategoryId = b.CategoryId
     WHERE b.IsDeleted = 0
@@ -1169,7 +1172,7 @@ BEGIN
     SELECT TOP (@TopN)
            b.BookId, b.BookCode, b.Title, b.Author,
            c.CategoryName,
-           SUM(d.Quantity)             AS TotalBorrowed,
+           SUM(d.Quantity)             AS BorrowCount,
            COUNT(DISTINCT br.ReaderId) AS UniqueReaders
     FROM dbo.BorrowReceiptDetails d
     JOIN dbo.BorrowReceipts br ON br.BorrowId = d.BorrowId AND br.IsDeleted = 0
@@ -1178,7 +1181,7 @@ BEGIN
     WHERE (@FromDate IS NULL OR br.BorrowDate >= @FromDate)
       AND (@ToDate   IS NULL OR br.BorrowDate <= @ToDate)
     GROUP BY b.BookId, b.BookCode, b.Title, b.Author, c.CategoryName
-    ORDER BY TotalBorrowed DESC;
+    ORDER BY BorrowCount DESC;
 END
 GO
 
@@ -1194,7 +1197,7 @@ BEGIN
     SELECT TOP (@TopN)
            r.ReaderId, r.CardNumber, r.FullName, r.Phone,
            COUNT(DISTINCT br.BorrowId) AS TotalReceipts,
-           SUM(d.Quantity)             AS TotalBooks,
+           SUM(d.Quantity)             AS BorrowCount,
            SUM(br.TotalFine)           AS TotalFinePaid,
            MAX(br.BorrowDate)          AS LastBorrowDate
     FROM dbo.Readers r
@@ -1204,7 +1207,7 @@ BEGIN
       AND (@FromDate IS NULL OR br.BorrowDate >= @FromDate)
       AND (@ToDate   IS NULL OR br.BorrowDate <= @ToDate)
     GROUP BY r.ReaderId, r.CardNumber, r.FullName, r.Phone
-    ORDER BY TotalBooks DESC, TotalReceipts DESC;
+    ORDER BY BorrowCount DESC, TotalReceipts DESC;
 END
 GO
 
@@ -1218,9 +1221,9 @@ BEGIN
     SET NOCOUNT ON;
 
     IF @GroupBy = 'Day'
-        SELECT CAST(PaidAt AS DATE)           AS Period,
+        SELECT CAST(PaidAt AS DATE)            AS Period,
                COUNT(*)                        AS Transactions,
-               SUM(Amount)                     AS Revenue
+               SUM(Amount)                     AS TotalFine
         FROM dbo.PenaltyHistory
         WHERE PaidAt IS NOT NULL
           AND PaidAt >= @FromDate
@@ -1230,7 +1233,7 @@ BEGIN
     ELSE IF @GroupBy = 'Month'
         SELECT FORMAT(PaidAt,'yyyy-MM')        AS Period,
                COUNT(*)                        AS Transactions,
-               SUM(Amount)                     AS Revenue
+               SUM(Amount)                     AS TotalFine
         FROM dbo.PenaltyHistory
         WHERE PaidAt IS NOT NULL
           AND PaidAt >= @FromDate
@@ -1240,7 +1243,7 @@ BEGIN
     ELSE
         SELECT YEAR(PaidAt)                    AS Period,
                COUNT(*)                        AS Transactions,
-               SUM(Amount)                     AS Revenue
+               SUM(Amount)                     AS TotalFine
         FROM dbo.PenaltyHistory
         WHERE PaidAt IS NOT NULL
           AND PaidAt >= @FromDate

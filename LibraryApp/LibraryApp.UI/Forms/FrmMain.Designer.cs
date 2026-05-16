@@ -37,6 +37,8 @@ partial class FrmMain
         this.menuAccountUsers = new ToolStripMenuItem();
         this.menuAccountChangePwd = new ToolStripMenuItem();
         this.menuAccountLogout = new ToolStripMenuItem();
+        this.menuTools = new ToolStripMenuItem();
+        this.menuToolsSearch = new ToolStripMenuItem();
         this.menuHelp = new ToolStripMenuItem();
         this.menuHelpAbout = new ToolStripMenuItem();
 
@@ -80,7 +82,8 @@ partial class FrmMain
         this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
         this.menuStrip.Items.AddRange(new ToolStripItem[] {
             this.menuFile, this.menuBook, this.menuReader,
-            this.menuBorrow, this.menuReport, this.menuAccount, this.menuHelp });
+            this.menuBorrow, this.menuReport, this.menuTools,
+            this.menuAccount, this.menuHelp });
         this.menuStrip.Location = new System.Drawing.Point(0, 0);
         this.menuStrip.Name = "menuStrip";
         this.menuStrip.Padding = new Padding(8, 6, 0, 6);
@@ -147,6 +150,15 @@ partial class FrmMain
 
         this.menuReportFine.Text = "Doanh thu tiền &phạt";
         this.menuReportFine.Click += new EventHandler(this.menuReportFine_Click);
+
+        // -- menuTools --
+        this.menuTools.Text = "&Công cụ";
+        this.menuTools.ForeColor = System.Drawing.Color.White;
+        this.menuTools.DropDownItems.AddRange(new ToolStripItem[] { this.menuToolsSearch });
+
+        this.menuToolsSearch.Text = "🔎 Tìm kiếm &nâng cao";
+        this.menuToolsSearch.ShortcutKeys = Keys.Control | Keys.F;
+        this.menuToolsSearch.Click += new EventHandler(this.menuToolsSearch_Click);
 
         // -- menuAccount --
         this.menuAccount.Text = "Tài &khoản";
@@ -356,6 +368,8 @@ partial class FrmMain
     private ToolStripMenuItem menuAccountUsers = null!;
     private ToolStripMenuItem menuAccountChangePwd = null!;
     private ToolStripMenuItem menuAccountLogout = null!;
+    private ToolStripMenuItem menuTools = null!;
+    private ToolStripMenuItem menuToolsSearch = null!;
     private ToolStripMenuItem menuHelp = null!;
     private ToolStripMenuItem menuHelpAbout = null!;
 

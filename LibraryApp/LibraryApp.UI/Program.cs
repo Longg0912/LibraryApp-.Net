@@ -21,21 +21,24 @@ internal static class Program
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
 
-        // Global exception handlers (đảm bảo không crash silent)
+        // Global exception handlers dùng ErrorHandler trung tâm
+        // → tự ghi log + hiển thị MessageBox thân thiện theo loại exception
         Application.ThreadException += (_, args) =>
-            MessageBox.Show(
-                $"Lỗi không xử lý được: {args.Exception.Message}",
-                "Lỗi hệ thống",
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Common.ErrorHandler.Handle(args.Exception, context: "Application.ThreadException");
 
         AppDomain.CurrentDomain.UnhandledException += (_, args) =>
         {
             if (args.ExceptionObject is Exception ex)
-                MessageBox.Show(
-                    $"Lỗi nghiêm trọng: {ex.Message}",
-                    "Lỗi hệ thống",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Common.ErrorHandler.Handle(ex, context: "AppDomain.UnhandledException");
         };
+
+        TaskScheduler.UnobservedTaskException += (_, args) =>
+        {
+            Common.ErrorHandler.Handle(args.Exception, context: "TaskScheduler.UnobservedTaskException");
+            args.SetObserved();
+        };
+
+        Common.Logger.Info("Application started.");
 
         // Vòng lặp Login → Main → (Logout → Login) → ... → Exit
         // Khi user đăng xuất, FrmMain.DialogResult = OK → quay lại FrmLogin.
@@ -56,5 +59,7 @@ internal static class Program
             if (mainResult != DialogResult.OK)
                 break;
         }
+
+        Common.Logger.Info("Application stopped normally.");
     }
 }
