@@ -15,7 +15,7 @@
 - **Thống kê** — KPI, biểu đồ bar/line/pie, doanh thu phạt
 - **Xuất Excel** — ClosedXML, format đẹp, freeze pane
 - **Quản lý người dùng** — Admin only, reset mật khẩu, khoá tài khoản
-- **Đổi mật khẩu** — validate chặt chẽ
+- **Đổi mật khẩu** 
 
 ## Kiến trúc
 
@@ -63,7 +63,7 @@
 | Disk space | ~500 MB cho dependencies + database |
 | RAM | tối thiểu 4 GB |
 
-## 🚀 Cài đặt nhanh
+## Cài đặt nhanh
 
 ### 1. Clone repo
 
