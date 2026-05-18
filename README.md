@@ -3,21 +3,21 @@
 > WinForms .NET 10 + SQL Server 2022 — bài tập lớn với kiến trúc 5-layer
 > production-ready (RBAC, audit log, anti race-condition, ROWVERSION concurrency).
 
-## 📋 Tổng quan
+## Tổng quan
 
 Ứng dụng quản lý thư viện đầy đủ chức năng nghiệp vụ:
 
-- 🔐 **Đăng nhập** với BCrypt + lockout sau 5 lần sai
-- 📚 **Quản lý sách** — CRUD, tìm kiếm, danh mục, trạng thái
-- 👥 **Quản lý độc giả** — CRUD, gia hạn thẻ, validate email/SĐT
-- 🔄 **Mượn / trả** — giỏ sách, transaction-safe, tự tính phạt
-- 🔎 **Tìm kiếm nâng cao** — đa thực thể, kết hợp nhiều tiêu chí
-- 📊 **Thống kê** — KPI, biểu đồ bar/line/pie, doanh thu phạt
-- 📤 **Xuất Excel** — ClosedXML, format đẹp, freeze pane
-- 👤 **Quản lý người dùng** — Admin only, reset mật khẩu, khoá tài khoản
-- 🔒 **Đổi mật khẩu** — validate chặt chẽ
+- **Đăng nhập** với BCrypt + lockout sau 5 lần sai
+- **Quản lý sách** — CRUD, tìm kiếm, danh mục, trạng thái
+- **Quản lý độc giả** — CRUD, gia hạn thẻ, validate email/SĐT
+- **Mượn / trả** — giỏ sách, transaction-safe, tự tính phạt
+- **Tìm kiếm nâng cao** — đa thực thể, kết hợp nhiều tiêu chí
+- **Thống kê** — KPI, biểu đồ bar/line/pie, doanh thu phạt
+- **Xuất Excel** — ClosedXML, format đẹp, freeze pane
+- **Quản lý người dùng** — Admin only, reset mật khẩu, khoá tài khoản
+- **Đổi mật khẩu** — validate chặt chẽ
 
-## 🏗 Kiến trúc
+## Kiến trúc
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -123,7 +123,7 @@ dotnet run --project LibraryApp.UI
 
 Hoặc mở `LibraryApp.sln` trong Visual Studio → nhấn **F5**.
 
-### 🔑 Tài khoản đăng nhập mặc định
+### Tài khoản đăng nhập mặc định
 
 | Username | Mật khẩu | Vai trò |
 |---|---|---|
@@ -132,7 +132,7 @@ Hoặc mở `LibraryApp.sln` trong Visual Studio → nhấn **F5**.
 | `thuthu2` | `123456` | Thủ thư |
 | `viewer1` | `123456` | Người xem (chỉ đọc) |
 
-## 📦 Cấu trúc thư mục
+## Cấu trúc thư mục
 
 ```
 LibraryApp/
@@ -192,7 +192,7 @@ LibraryApp/
     └── Restore-Database.ps1           # Restore từ .bak
 ```
 
-## 🧪 Test nhanh các luồng nghiệp vụ
+## Test nhanh các luồng nghiệp vụ
 
 Sau khi đăng nhập với `admin/123456`:
 
@@ -220,9 +220,9 @@ Sau khi đăng nhập với `admin/123456`:
 1. Menu **Tài khoản → Quản lý người dùng**
 2. "➕ Thêm mới" → điền form, mật khẩu tạm `abc12345` → Lưu
 3. Logout → đăng nhập bằng tài khoản mới → app yêu cầu đổi mật khẩu
-4. Login lại bằng admin → "🔑 Reset mật khẩu" cho user → copy mật khẩu mới
+4. Login lại bằng admin → "Reset mật khẩu" cho user → copy mật khẩu mới
 
-## 📊 Phím tắt
+## Phím tắt
 
 | Phím | Chức năng |
 |---|---|
@@ -235,7 +235,7 @@ Sau khi đăng nhập với `admin/123456`:
 | `Ctrl+L` | Đăng xuất |
 | `Alt+F4` | Thoát app |
 
-## 🔒 Bảo mật & RBAC
+## Bảo mật & RBAC
 
 | Vai trò | Quyền |
 |---|---|
@@ -253,7 +253,7 @@ Sau 5 lần đăng nhập sai → khóa tài khoản 15 phút.
 - Mặc định: `Info` trở lên. Bật Debug: `Logger.SetMinLevel(LogLevel.Debug)` trong `Program.cs`.
 - Stack trace đầy đủ cho mức Error.
 
-## 🐛 Xử lý lỗi
+## Xử lý lỗi
 
 Toàn bộ exception đi qua `ErrorHandler.Handle()` — phân loại tự động:
 
@@ -262,7 +262,7 @@ Toàn bộ exception đi qua `ErrorHandler.Handle()` — phân loại tự độ
 - `SqlException` raw → bắt 10+ loại lỗi connection/auth/permission
 - Lỗi khác → MessageBox Error + ghi log đầy đủ
 
-## 🚢 Deploy production
+## Deploy production
 
 Xem chi tiết [docs/DEPLOY.md](docs/DEPLOY.md).
 
@@ -271,13 +271,13 @@ Tóm tắt:
 dotnet publish LibraryApp.UI -c Release -r win-x64 --self-contained false -o ./publish
 ```
 
-## 📚 Tài liệu
+## Tài liệu
 
 - [Database Setup](docs/DATABASE_SETUP.md) — chi tiết script SQL + dữ liệu mẫu
 - [Deploy Guide](docs/DEPLOY.md) — publish, cài đặt SQL Server, troubleshoot
 - [SQL Script](docs/sql/HUST_Library_Production.sql) — full schema + sample data
 
-## 🤝 Đóng góp
+## Đóng góp
 
 Dự án bài tập lớn — không nhận PR ngoài.
 
